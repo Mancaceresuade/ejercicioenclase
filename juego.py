@@ -28,7 +28,7 @@ def crear_ventana():
     canvas = tk.Canvas(ventana, width=400, height=400, bg="black")
     canvas.pack()
     try:
-        fondo_img = tk.PhotoImage(file=r"\ejercicioenclase\platense.png")
+        fondo_img = tk.PhotoImage(file=r"ejercicioenclase/platense.png")
         canvas.fondo_img = fondo_img
         print("Imagen de fondo cargada correctamente.")
     except Exception as e:
