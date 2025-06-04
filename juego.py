@@ -27,10 +27,19 @@ def crear_ventana():
     ventana.title("Snake en Python sin clases")
     canvas = tk.Canvas(ventana, width=400, height=400, bg="black")
     canvas.pack()
+    try:
+        fondo_img = tk.PhotoImage(file=r"c:\Users\lenny\OneDrive\Escritorio\UADE\1 año\1-cuatrimestre\Introduccion a la Algoritmia\Ejercicio clase snake\ejercicioenclase\platense.png")
+        canvas.fondo_img = fondo_img
+        print("Imagen de fondo cargada correctamente.")
+    except Exception as e:
+        print("Error cargando la imagen de fondo:", e)
+        canvas.fondo_img = None
     return ventana, canvas
 
 def dibujar(canvas, snake, comida):
     canvas.delete("all")
+    if canvas.fondo_img is not None:
+        canvas.create_image(200, 200, anchor="center", image=canvas.fondo_img)  # Centra la imagen
     for x, y in snake:
         canvas.create_rectangle(x, y, x+10, y+10, fill="green")
     canvas.create_oval(comida[0], comida[1], comida[0]+10, comida[1]+10, fill="red")
