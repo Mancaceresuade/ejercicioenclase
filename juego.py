@@ -28,7 +28,7 @@ def crear_ventana():
     canvas = tk.Canvas(ventana, width=400, height=400, bg="black")
     canvas.pack()
     try:
-        fondo_img = tk.PhotoImage(file=r"c:\Users\lenny\OneDrive\Escritorio\UADE\1 año\1-cuatrimestre\Introduccion a la Algoritmia\Ejercicio clase snake\ejercicioenclase\platense.png")
+        fondo_img = tk.PhotoImage(file=r"\ejercicioenclase\platense.png")
         canvas.fondo_img = fondo_img
         print("Imagen de fondo cargada correctamente.")
     except Exception as e:
@@ -77,5 +77,3 @@ ventana, canvas = crear_ventana()
 ventana.bind("<Key>", cambiar_direccion)
 ventana.after(100, actualizar_juego)
 ventana.mainloop()
-
-#fin del juego 
