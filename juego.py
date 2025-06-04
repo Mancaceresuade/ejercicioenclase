@@ -68,3 +68,5 @@ ventana, canvas = crear_ventana()
 ventana.bind("<Key>", cambiar_direccion)
 ventana.after(100, actualizar_juego)
 ventana.mainloop()
+
+#fin del juego 
