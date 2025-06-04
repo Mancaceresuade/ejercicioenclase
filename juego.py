@@ -47,6 +47,18 @@ def actualizar_juego():
     dibujar(canvas, snake, comida)
     ventana.after(100, actualizar_juego)
 
+def cambiar_direccion(event):
+    global direction
+    if event.keysym == "Up" and direction != [0, 10]:
+        direction = [0, -10]
+    elif event.keysym == "Down" and direction != [0, -10]:
+        direction = [0, 10]
+    elif event.keysym == "Left" and direction != [10, 0]:
+        direction = [-10, 0]
+    elif event.keysym == "Right" and direction != [-10, 0]:
+        direction = [10, 0]
+
 ventana, canvas = crear_ventana()
+ventana.bind("<Key>", cambiar_direccion)
 ventana.after(100, actualizar_juego)
 ventana.mainloop()
