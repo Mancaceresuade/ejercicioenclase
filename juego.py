@@ -7,6 +7,9 @@ direction = [10, 0]  # Movimiento en X e Y
 
 def mover_snake(snake, direction):
     cabeza = [snake[0][0] + direction[0], snake[0][1] + direction[1]]
+    # Teletransporte en los bordes
+    cabeza[0] %= 400  # Ancho del canvas
+    cabeza[1] %= 400  # Alto del canvas
     snake.insert(0, cabeza)
     # No elimines la cola aquí
 
