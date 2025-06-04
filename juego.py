@@ -8,7 +8,7 @@ direction = [10, 0]  # Movimiento en X e Y
 def mover_snake(snake, direction):
     cabeza = [snake[0][0] + direction[0], snake[0][1] + direction[1]]
     snake.insert(0, cabeza)
-    snake.pop()  # Elimina cola
+    # No elimines la cola aquí
 
 def crecer_snake(snake):
     cola = snake[-1]
@@ -39,8 +39,11 @@ def actualizar_juego():
     global comida
     mover_snake(snake, direction)
     if snake[0] == comida:
-        crecer_snake(snake)
+        # No elimines la cola, así crece
         comida = [random.randint(0, 39)*10, random.randint(0, 39)*10]
+    else:
+        # Si no comió, elimina la cola
+        snake.pop()
     if hay_colision(snake):
         print("¡Perdiste!")
         return
