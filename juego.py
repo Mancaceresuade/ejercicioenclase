@@ -2,25 +2,22 @@ import tkinter as tk
 import random
 import time
 
-snake = [[100, 100], [90, 100], [80, 100]]  # Lista de coordenadas
-direction = [10, 0]  # Movimiento en X e Y
+snake = [[100, 100], [90, 100], [80, 100]]
+direction = [10, 0]
+
+score = 0
+start_time = time.time()
+juego_activo = True
 
 def mover_snake(snake, direction):
     cabeza = [snake[0][0] + direction[0], snake[0][1] + direction[1]]
-    # Teletransporte en los bordes
-    cabeza[0] %= 400  # Ancho del canvas
-    cabeza[1] %= 400  # Alto del canvas
+    cabeza[0] %= 400
+    cabeza[1] %= 400
     snake.insert(0, cabeza)
-    # No elimines la cola aquí
-
-def crecer_snake(snake):
-    cola = snake[-1]
-    snake.append(cola[:])  # Duplica último segmento
 
 def hay_colision(snake):
     cabeza = snake[0]
-    return cabeza in snake[1:]  # Colisión consigo misma
-
+    return cabeza in snake[1:]
 
 def crear_ventana():
     ventana = tk.Tk()
@@ -36,30 +33,45 @@ def crear_ventana():
         canvas.fondo_img = None
     return ventana, canvas
 
-def dibujar(canvas, snake, comida):
+comida = [random.randint(0, 39)*10, random.randint(0, 39)*10]
+
+def dibujar(canvas, snake, comida, score, tiempo, mostrar_game_over=False):
     canvas.delete("all")
     if canvas.fondo_img is not None:
-        canvas.create_image(200, 200, anchor="center", image=canvas.fondo_img)  # Centra la imagen
+        canvas.create_image(200, 200, anchor="center", image=canvas.fondo_img)
     for x, y in snake:
         canvas.create_rectangle(x, y, x+10, y+10, fill="green")
     canvas.create_oval(comida[0], comida[1], comida[0]+10, comida[1]+10, fill="red")
-
-
-comida = [random.randint(0, 39)*10, random.randint(0, 39)*10]
+    
+    # Puntaje y tiempo en negro
+    canvas.create_text(50, 10, fill="black", font=("Arial", 10), text=f"Score: {score}")
+    canvas.create_text(350, 10, fill="black", font=("Arial", 10), text=f"Time: {tiempo}s")
+    
+    if mostrar_game_over:
+        canvas.create_text(200, 200, fill="black", font=("Arial", 20, "bold"), text="¡Perdiste!")
 
 def actualizar_juego():
-    global comida
+    global comida, score, juego_activo
+    if not juego_activo:
+        return
+
     mover_snake(snake, direction)
+
     if snake[0] == comida:
-        # No elimines la cola, así crece
+        score += 1
         comida = [random.randint(0, 39)*10, random.randint(0, 39)*10]
     else:
-        # Si no comió, elimina la cola
         snake.pop()
+
     if hay_colision(snake):
-        print("¡Perdiste!")
+        juego_activo = False
+        print(f"¡Perdiste! Puntaje final: {score}")
+        tiempo = int(time.time() - start_time)
+        dibujar(canvas, snake, comida, score, tiempo, mostrar_game_over=True)
         return
-    dibujar(canvas, snake, comida)
+
+    tiempo = int(time.time() - start_time)
+    dibujar(canvas, snake, comida, score, tiempo)
     ventana.after(100, actualizar_juego)
 
 def cambiar_direccion(event):
